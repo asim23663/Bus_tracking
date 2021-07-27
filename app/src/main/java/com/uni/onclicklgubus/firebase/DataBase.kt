@@ -17,10 +17,12 @@ object DataBase {
 
     private const val USERS = "users"
     private const val DRIVERS = "drivers"
+    private const val BUS = "busTracking"
 
     private val CURRENT_USER_DB_REF = DATA_BASE.getReference(USERS).child(CURRENT_UID)
 
     val DRIVER_DB_REF = DATA_BASE.getReference(DRIVERS)
+    val BUS_DB_REF = DATA_BASE.getReference(BUS)
 
 
 //    val CURRENT_USER_TASKS_DB_REF = DATA_BASE.getReference(TASK).child(CURRENT_UID)

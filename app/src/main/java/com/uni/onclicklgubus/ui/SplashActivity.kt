@@ -35,9 +35,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
                 SharedPrefHelper.instance!!.apply {
                     when {
-                        isAdminLogin -> navigateToNextActivity(AdminDashboardActivity::class.java)
-                        isStudentLogin -> navigateToNextActivity(StudentDashboardActivity::class.java)
-                        isDriverLogin -> navigateToNextActivity(DriverDashboardActivity::class.java)
+                        isAdminLogin -> navigateAndClearBackStack(AdminDashboardActivity::class.java)
+                        isStudentLogin -> navigateAndClearBackStack(StudentDashboardActivity::class.java)
+                        isDriverLogin -> navigateAndClearBackStack(DriverDashboardActivity::class.java)
                         else -> navigateAndClearBackStack(WelcomeActivity::class.java)
                     }
                 }
