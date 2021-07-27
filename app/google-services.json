@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "721976220212",
+    "project_id": "on-click-lgu-bus",
+    "storage_bucket": "on-click-lgu-bus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721976220212:android:19f82a56ad6dfc29584861",
+        "android_client_info": {
+          "package_name": "com.uni.onclicklgubus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721976220212-7co19fe5o94f3k6ac15ieir160r689tv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBduFau6Lc-HO_NOBuQ9VKnyy8unautu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721976220212-7co19fe5o94f3k6ac15ieir160r689tv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

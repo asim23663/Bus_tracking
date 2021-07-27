@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.admin.AdminDashboardActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/padding_small"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_primary">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_normal"
+            android:text="@string/admin_dashboard"
+            android:textSize="@dimen/_18ssp"
+            android:textColor="@color/white"
+            android:layout_gravity="center|start"
+            />
+        <ImageView
+            android:id="@+id/iv_logout"
+            style="@style/RippleEffect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_logout"
+            android:padding="@dimen/padding_normal"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:src="@drawable/ic_account"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:text="Welcome, Admin"
+                android:padding="@dimen/padding_normal"
+                android:textColor="@color/color_primary"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold|italic"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_gravity="center"
+            android:text="Driver"
+            android:textStyle="bold"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_extra_bigger" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/padding_normal">
+            <com.google.android.material.button.MaterialButton
+                style="@style/BtnStyle"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Add New"
+                android:id="@+id/btn_add_new_driver"
+                />
+            <com.google.android.material.button.MaterialButton
+                style="@style/BtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Driver's"
+                android:id="@+id/btn_see_driver"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Students"
+            android:layout_marginTop="@dimen/margin_large"
+            android:padding="@dimen/padding_normal"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_extra_bigger" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/padding_normal">
+            <com.google.android.material.button.MaterialButton
+                style="@style/BtnStyle"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Add New"
+                android:id="@+id/btn_add_new_student"
+                />
+            <com.google.android.material.button.MaterialButton
+                style="@style/BtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Student's"
+                android:id="@+id/btn_see_student"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

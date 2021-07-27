@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">OnClickLGUBus</string>
+
+    <string name="ok">OK</string>
+
+    <string name="terms_condition">By continuing, you agree to accept our \n<b><u> Privacy Policy</u> &amp; <u>Terms of Service</u></b>.</string>
+    <string name="login_tv_don_t_have_an_account">Don\'t have an account? <b><u>Sign up</u></b></string>
+    <string name="already_have_an_account">Already have an account ?  <b><u>Login</u></b></string>
+    <string name="enter_your_login_details_to_access_your_account">Enter your login details to access your account</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="please_enter_your_account_details">Please enter your account details</string>
+    <string name="full_name">Full Name</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="error_email_empty">Email address is required!</string>
+    <string name="email_is_not_valid">Email is not valid!</string>
+    <string name="error_pass_not_empty">Password is not empty</string>
+    <string name="please_enter_your">Please enter your user name and email address</string>
+    <string name="verify">Verify</string>
+    <string name="name_income_source">Name Income Source</string>
+    <string name="forgot_msg">Enter a valid Email Address to get a code to recover your Account!</string>
+    <string name="send">Send</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="title_activity_bottom_nav">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="todo" />
+    <string name="name">Name</string>
+    <string name="bus_number">Bus Number</string>
+    <string name="dob">D-O-B</string>
+    <string name="experience">Experience</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="bus_root">Bus root</string>
+    <string name="bus_route">Bus route</string>
+    <string name="add_new_driver">Add Driver</string>
+    <string name="save">Save</string>
+    <string name="driving_license_number">Driving licence number</string>
+    <string name="driving_license_expire_date">Driving licence expire date</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="driver_list">Driver\'s List</string>
+    <string name="add_new_student">Add New Student</string>
+    <string name="student_list">Student\'s List</string>
+    <string name="gender">Gender</string>
+    <string name="title_activity_driver_dashboard">Map</string>
+    <string name="select">Select</string>
+    <string name="father_name">Father Name</string>
+    <string name="all_student">All Student</string>
+    <string name="all_driver">All Driver</string>
+
+
+    <string name="error_weak_password">weak password!</string>
+    <string name="error_invalid_email">Invalid Email!</string>
+    <string name="error_user_exists">User already exist!</string>
+
+    <string name="str_logout_msg">Do you really want to Logout?</string>
+    <string name="driver">Driver\'s Dashboard</string>
+
+</resources>
