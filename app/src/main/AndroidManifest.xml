@@ -35,6 +35,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".ui.admin.AdminTrackingBuss"
+            android:exported="true"
+            android:label="@string/title_activity_admin_tracking_buss"
+            android:parentActivityName=".ui.admin.DriverListActivity"/>
+        <activity
             android:name=".ui.driver.DriverDashboardActivity"
             android:label="@string/title_activity_driver_dashboard"
             android:theme="@style/NoActionBarStyle" />

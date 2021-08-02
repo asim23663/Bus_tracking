@@ -120,6 +120,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         getText(etPassword).length < 6 -> showSnackBarError("Please enter 6 digits at least")
                         else -> {
                             setVisibility(pb, btnLogin)
+
+                            Log.d(TAG,"Email: ${getText(etEmail)}")
+                            Log.d(TAG,"Password: ${getText(etPassword)}")
                             auth.signInWithEmailAndPassword(getText(etEmail), getText(etPassword))
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
@@ -136,7 +139,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                         } catch (e: FirebaseAuthWeakPasswordException) {
                                             showSnackBar(getString(R.string.error_weak_password))
                                         } catch (e: FirebaseAuthInvalidCredentialsException) {
-                                            showSnackBar(getString(R.string.error_invalid_email))
+
+
+                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.errorCode}")
+                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.localizedMessage}")
+                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.message}")
+
+//                                            showSnackBar(getString(R.string.error_invalid_email))
+                                            showSnackBar(e.message)
                                         } catch (e: FirebaseAuthUserCollisionException) {
                                             showSnackBar(getString(R.string.error_user_exists))
                                         } catch (e: Exception) {

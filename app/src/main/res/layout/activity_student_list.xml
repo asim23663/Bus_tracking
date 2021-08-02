@@ -4,14 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".ui.admin.StudentListActivity">
 
-    <include
-        layout="@layout/iv_student"/>
-    <include
-        layout="@layout/iv_student"/>
-    <include
-        layout="@layout/iv_student"/>
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pb"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="2"
+        android:visibility="gone"
+        tools:listitem="@layout/iv_driver" />
+
 
 </LinearLayout>

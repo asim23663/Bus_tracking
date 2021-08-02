@@ -26,7 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
-                android:inputType="textPersonName"
+                android:id="@+id/et_name"
+                android:inputType="textCapSentences"
+
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -42,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/father_name"
+                android:id="@+id/et_f_name"
                 android:inputType="textPersonName"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,6 +69,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/dob"
                     android:inputType="none"
+                    android:clickable="false"
+                    android:focusable="false"
+
                     android:id="@+id/et_dob"
                     android:paddingLeft="@dimen/padding_normal" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -102,7 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Permanent Address"
-                android:inputType="numberDecimal"
+                android:id="@+id/et_p_address"
+                android:inputType="textCapSentences"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -118,7 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Current Address"
-                android:inputType="numberDecimal"
+                android:id="@+id/et_c_address"
+                android:inputType="textCapSentences"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -134,7 +142,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/contact_number"
-                android:inputType="number"
+                android:id="@+id/et_contact_number"
+                android:inputType="textCapSentences"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Batch"
-                android:inputType="numberDecimal"
+                android:id="@+id/et_batch"
+                android:inputType="textCapSentences"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -167,8 +177,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Departement"
-                android:inputType="textPersonName"
+                android:hint="Department"
+                android:id="@+id/et_department"
+                android:inputType="textCapSentences"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -184,6 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Roll Number"
+                android:id="@+id/et_roll_number"
                 android:inputType="textPersonName"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -202,6 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_address"
+                android:id="@+id/et_email"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -223,12 +236,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:id="@+id/et_password"
                 android:inputType="textPassword"
                 android:paddingLeft="@dimen/padding_normal" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/pb"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_save"
             style="@style/BtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

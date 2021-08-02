@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.uni.onclicklgubus.model.User
-import com.uni.onclicklgubus.sharedPref.SharedPrefHelper
 import com.uni.onclicklgubus.utils.Utils
 
 object DataBase {
@@ -16,13 +15,15 @@ object DataBase {
     private val DATA_BASE = FirebaseDatabase.getInstance()
 
     private const val USERS = "users"
-    private const val DRIVERS = "drivers"
-    private const val BUS = "busTracking"
+    const val DRIVERS = "drivers"
+    private const val STUDENTS = "students"
+    private const val BUS_TRACKING = "busTracking"
 
     private val CURRENT_USER_DB_REF = DATA_BASE.getReference(USERS).child(CURRENT_UID)
 
     val DRIVER_DB_REF = DATA_BASE.getReference(DRIVERS)
-    val BUS_DB_REF = DATA_BASE.getReference(BUS)
+    val STUDENT_DB_REF = DATA_BASE.getReference(STUDENTS)
+    val BUS_TRACKING_DB_REF = DATA_BASE.getReference(BUS_TRACKING)
 
 
 //    val CURRENT_USER_TASKS_DB_REF = DATA_BASE.getReference(TASK).child(CURRENT_UID)

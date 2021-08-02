@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.location.Address
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -27,6 +28,11 @@ import com.uni.onclicklgubus.model.Bus
 import com.uni.onclicklgubus.sharedPref.SharedPref
 import com.uni.onclicklgubus.sharedPref.SharedPrefHelper
 import com.uni.onclicklgubus.ui.WelcomeActivity
+import android.location.Geocoder
+import android.util.Log
+import java.io.IOException
+import java.lang.StringBuilder
+import java.util.*
 
 
 class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), OnMapReadyCallback {
@@ -48,7 +54,7 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
                 val location = locationList.last()
 
                 SharedPrefHelper.instance!!.getDriverData.apply {
-                    DataBase.BUS_DB_REF.child(busNumber!!).apply {
+                    DataBase.BUS_TRACKING_DB_REF.child(busNumber!!).apply {
 
 
                         child("lat").setValue(location.latitude)
@@ -67,7 +73,7 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
                 )
                 mMap.animateCamera(cameraUpdateFactory)
 
-                showToast("Got Location:  ${location.toString()}")
+                showToast("Got Location:  ${getAddress(location.latitude,location.longitude)}")
 
             }
         }
@@ -138,8 +144,14 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
         mapFragment.getMapAsync(this)
 
         SharedPrefHelper.instance!!.getDriverData.apply {
-            DataBase.BUS_DB_REF.child(busNumber!!)
+            DataBase.BUS_TRACKING_DB_REF.child(busNumber!!)
                 .setValue(Bus(uid, busNumber, name, 0.0, 0.0))
+
+            mViewBinding.apply {
+
+                tvDriverName.text = name
+                tvBusNmbr.text = busNumber
+            }
 
         }
     }
@@ -158,6 +170,23 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
             }
         }
 
+    }
+
+    private fun getAddress(latitude: Double, longitude: Double): String? {
+        val result = StringBuilder()
+        try {
+            val geocoder = Geocoder(this, Locale.getDefault())
+            val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
+            if (addresses.size > 0) {
+                val address: Address = addresses[0]
+                result.append(address.getLocality()).append("\n")
+                result.append(address.getCountryName())
+            }
+        } catch (e: IOException) {
+            Log.d(Companion.TAG,"tag: ${e.message}")
+
+        }
+        return result.toString()
     }
 
 
@@ -294,5 +323,6 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+        private const val TAG = "DriverDashboardActivity"
     }
 }

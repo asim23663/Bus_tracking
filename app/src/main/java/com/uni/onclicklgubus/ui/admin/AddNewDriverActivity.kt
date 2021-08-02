@@ -40,57 +40,57 @@ class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
 
         mViewBinding.apply {
 
-            btnSave.setOnClickListener {
+                btnSave.setOnClickListener {
 
-                when {
-                    isEmpty(etName) -> {
-                        etName.error = "Name is required!"
-                        etName.requestFocus()
-                    }
-                    isEmpty(etDob) -> {
-                        etDob.error = "D-O-B is required!"
-                        etDob.requestFocus()
-                    }
-                    isEmpty(etExperience) -> {
-                        etExperience.error = "Experience is required!"
-                        etExperience.requestFocus()
-                    }
-                    isEmpty(etNumber) -> {
-                        etNumber.error = "Contact number is required!"
-                        etNumber.requestFocus()
-                    }
-                    isEmpty(etDrivingLicenceNumber) -> {
-                        etDrivingLicenceNumber.error = "Driving Licence number is required!"
-                        etDrivingLicenceNumber.requestFocus()
-                    }
-                    isEmpty(etDrivingLicenceNumber) -> {
-                        etDrivingLicenceNumber.error = "Driving Licence expire date is required!"
-                        etDrivingLicenceNumber.requestFocus()
-                    }
-                    isEmpty(etBusNumb) -> {
-                        etBusNumb.error = "Bus Number is required!"
-                        etBusNumb.requestFocus()
-                    }
-                    isEmpty(etBusRoute) -> {
-                        etBusRoute.error = "Bus Route is required!"
-                        etBusRoute.requestFocus()
-                    }
-                    isEmpty(etEmail) -> {
-                        etEmail.error = "Email is required!"
-                        etEmail.requestFocus()
-                    }
-                    isEmailValid(getText(etEmail)) -> {
-                        etEmail.error = "Email is not valid!"
-                        etEmail.requestFocus()
-                    }
+                    when {
+                        isEmpty(etName) -> {
+                            etName.error = "Name is required!"
+                            etName.requestFocus()
+                        }
+                        isEmpty(etDob) -> {
+                            etDob.error = "D-O-B is required!"
+                            etDob.requestFocus()
+                        }
+                        isEmpty(etExperience) -> {
+                            etExperience.error = "Experience is required!"
+                            etExperience.requestFocus()
+                        }
+                        isEmpty(etNumber) -> {
+                            etNumber.error = "Contact number is required!"
+                            etNumber.requestFocus()
+                        }
+                        isEmpty(etDrivingLicenceNumber) -> {
+                            etDrivingLicenceNumber.error = "Driving Licence number is required!"
+                            etDrivingLicenceNumber.requestFocus()
+                        }
+                        isEmpty(etDrivingLicenceNumber) -> {
+                            etDrivingLicenceNumber.error = "Driving Licence expire date is required!"
+                            etDrivingLicenceNumber.requestFocus()
+                        }
+                        isEmpty(etBusNumb) -> {
+                            etBusNumb.error = "Bus Number is required!"
+                            etBusNumb.requestFocus()
+                        }
+                        isEmpty(etBusRoute) -> {
+                            etBusRoute.error = "Bus Route is required!"
+                            etBusRoute.requestFocus()
+                        }
+                        isEmpty(etEmail) -> {
+                            etEmail.error = "Email is required!"
+                            etEmail.requestFocus()
+                        }
+                        isEmailValid(getText(etEmail)) -> {
+                            etEmail.error = "Email is not valid!"
+                            etEmail.requestFocus()
+                        }
 
-                    isEmpty(etPassword) -> {
-                        etPassword.error = "Password is required!"
-                        etPassword.requestFocus()
+                        isEmpty(etPassword) -> {
+                            etPassword.error = "Password is required!"
+                            etPassword.requestFocus()
+                        }
+                        else -> saveDriverData()
                     }
-                    else -> saveDriverData()
                 }
-            }
             etDob.setOnClickListener { Utils.selectDate(this@AddNewDriverActivity, etDob) }
             etDrivingLicenceExpireDate.setOnClickListener {
                 Utils.selectDate(

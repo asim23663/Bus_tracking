@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/drawable/ic_account.xml" value="0.19166666666666668" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19166666666666668" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/drawable/ic_logout.xml" value="0.19166666666666668" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/drawable/ic_place_holder.xml" value="0.19166666666666668" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_add_new_driver.xml" value="0.2" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_add_new_student.xml" value="0.25" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_driver_dashboard.xml" value="0.18" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_driver_list.xml" value="0.21" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_login.xml" value="0.1574074074074074" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_student_dashboard.xml" value="0.12" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_student_list.xml" value="0.209375" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_welcome.xml" value="0.209375" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/custom_toolbar.xml" value="0.10182370820668693" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/iv_driver.xml" value="0.3" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/iv_student.xml" value="0.209375" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/layout_admin.xml" value="0.1574074074074074" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
