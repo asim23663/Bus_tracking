@@ -15,11 +15,14 @@ import com.uni.onclicklgubus.databinding.ActivityAddNewStudentBinding
 import com.uni.onclicklgubus.firebase.DataBase
 import com.uni.onclicklgubus.model.Driver
 import com.uni.onclicklgubus.model.Student
+import com.uni.onclicklgubus.utils.Constants
 import com.uni.onclicklgubus.utils.Utils
+import kotlinx.coroutines.delay
 
 class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
 
     private lateinit var auth: FirebaseAuth
+    private var studentData: Student? = null
 
     override fun getViewBinding(): ActivityAddNewStudentBinding =
         ActivityAddNewStudentBinding.inflate(layoutInflater)
@@ -40,6 +43,32 @@ class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
             val items = listOf("Male", "Female", "Other")
             val adapter = ArrayAdapter(this@AddNewStudentActivity, R.layout.list_item, items)
             (etGender as? AutoCompleteTextView)?.setAdapter(adapter)
+
+
+            if (intent.extras != null) {
+                supportActionBar!!.title = "Edit Student";
+                studentData = intent.getSerializableExtra(Constants.BUNDLE_DATA) as Student
+                studentData!!.apply {
+                    etName.setText(name)
+                    etDob.setText(dob)
+                    etFName.setText(fatherName)
+                    etGender.setText(gender)
+                    etPAddress.setText(permanentAddress)
+                    etCAddress.setText(currentAddress)
+                    etBatch.setText(batch)
+                    etDepartment.setText(department)
+                    etRollNumber.setText(rollNumber)
+                    etEmail.setText(email)
+                    etPassword.setText(password)
+                    etContactNumber.setText(contactNumber)
+
+                    btnSave.text = "Update Student"
+
+                }
+
+
+            }
+
         }
 
     }
@@ -107,7 +136,14 @@ class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
                         etPassword.error = "Password is required!"
                         etPassword.requestFocus()
                     }
-                    else -> saveStudentData()
+                    else -> {
+
+                        if (studentData != null) {
+                            uploadDataToServer(studentData!!.uid!!, true)
+                        } else {
+                            saveStudentData()
+                        }
+                    }
                 }
             }
         }
@@ -122,7 +158,7 @@ class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
             ).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val uid = auth.currentUser.uid
-                    uploadDataToServer(uid)
+                    uploadDataToServer(uid,false)
                 } else {
                     setVisibility(btnSave, pb)
                     try {
@@ -151,7 +187,7 @@ class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
 
     }
 
-    private fun uploadDataToServer(uid: String) {
+    private fun uploadDataToServer(uid: String, isEdit: Boolean) {
 
         mViewBinding.apply {
             Utils.apply {
@@ -172,10 +208,17 @@ class AddNewStudentActivity : BaseActivity<ActivityAddNewStudentBinding>() {
                     getText(etEmail),
                     getText(etPassword)
                 )
-
                 DataBase.STUDENT_DB_REF.child(uid).setValue(student)
-                showSnackBar("Student Added Successfully")
-                onBackPressed()
+
+                if (isEdit){
+                    showSnackBar("Student Updated Successfully")
+                    onBackPressed()
+                }else{
+                    showSnackBar("Student Added Successfully")
+                    onBackPressed()
+                }
+
+
             }
         }
     }

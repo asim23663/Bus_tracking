@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -18,6 +19,7 @@ import com.uni.onclicklgubus.base.BaseActivity
 import com.uni.onclicklgubus.databinding.ActivityLoginBinding
 import com.uni.onclicklgubus.firebase.DataBase
 import com.uni.onclicklgubus.model.Driver
+import com.uni.onclicklgubus.model.Student
 import com.uni.onclicklgubus.sharedPref.SharedPrefHelper
 import com.uni.onclicklgubus.ui.admin.AdminDashboardActivity
 import com.uni.onclicklgubus.ui.driver.DriverDashboardActivity
@@ -121,8 +123,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         else -> {
                             setVisibility(pb, btnLogin)
 
-                            Log.d(TAG,"Email: ${getText(etEmail)}")
-                            Log.d(TAG,"Password: ${getText(etPassword)}")
+                            Log.d(TAG, "Email: ${getText(etEmail)}")
+                            Log.d(TAG, "Password: ${getText(etPassword)}")
                             auth.signInWithEmailAndPassword(getText(etEmail), getText(etPassword))
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
@@ -141,9 +143,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                         } catch (e: FirebaseAuthInvalidCredentialsException) {
 
 
-                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.errorCode}")
-                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.localizedMessage}")
-                                            Log.d(TAG,"FirebaseAuthInvalidCredentialsException: ${e.message}")
+                                            Log.d(
+                                                TAG,
+                                                "FirebaseAuthInvalidCredentialsException: ${e.errorCode}"
+                                            )
+                                            Log.d(
+                                                TAG,
+                                                "FirebaseAuthInvalidCredentialsException: ${e.localizedMessage}"
+                                            )
+                                            Log.d(
+                                                TAG,
+                                                "FirebaseAuthInvalidCredentialsException: ${e.message}"
+                                            )
 
 //                                            showSnackBar(getString(R.string.error_invalid_email))
                                             showSnackBar(e.message)
@@ -174,9 +185,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             auth.signInWithEmailAndPassword(getText(etEmail), getText(etPassword))
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
+                                        setVisibility(btnLogin, pb)
+
                                         val uid = auth.currentUser!!.uid
-                                        SharedPrefHelper.instance!!.saveStudentLogin(true)
-                                        navigateAndClearBackStack(StudentDashboardActivity::class.java)
+
+                                        checkStudentRollNumberIfExist()
+
                                     } else {
                                         setVisibility(btnLogin, pb)
                                         try {
@@ -199,6 +213,44 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             }
 
         }
+
+    }
+
+    private fun checkStudentRollNumberIfExist() {
+
+
+        mViewBinding.student.apply {
+            val query: Query = DataBase.STUDENT_DB_REF
+                .orderByChild("rollNumber")
+                .equalTo(getText(etRollNum))
+
+            query.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
+                    for (d in dataSnapshot.children) {
+
+                        val student = d.getValue(Student::class.java)!!
+
+                        if (student.rollNumber == getText(etRollNum) && student.email == getText(etEmail)) {
+                            SharedPrefHelper.instance!!.saveStudentLogin(true)
+                            SharedPrefHelper.instance!!.saveStudentData(student)
+                            navigateAndClearBackStack(StudentDashboardActivity::class.java)
+                        } else {
+                            showSnackBar("Roll number number is not Matches")
+                        }
+
+
+                    }
+
+
+
+
+                }
+
+                override fun onCancelled(@NonNull databaseError: DatabaseError) {}
+            })
+        }
+
+
 
     }
 

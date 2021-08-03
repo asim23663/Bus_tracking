@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uni.onclicklgubus">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,7 +20,21 @@
         android:roundIcon="@mipmap/ic_app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.OnClickLGUBus">
-
+        <activity
+            android:name=".ui.student.SubmitFeeOnlineActivity"
+            android:exported="true"
+            android:label="@string/title_submit_fee_via"
+            android:parentActivityName=".ui.student.StudentDashboardActivity"/>
+        <activity
+            android:name=".ui.student.BusTrackingActivity"
+            android:exported="true"
+            android:label="@string/title_tracking_bus"
+            android:parentActivityName=".ui.student.BussOnRouteActivity" />
+        <activity
+            android:name=".ui.student.BussOnRouteActivity"
+            android:exported="true"
+            android:label="@string/title_bus_list"
+            android:parentActivityName=".ui.student.StudentDashboardActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,12 +51,14 @@
             android:name=".ui.admin.AdminTrackingBuss"
             android:exported="true"
             android:label="@string/title_activity_admin_tracking_buss"
-            android:parentActivityName=".ui.admin.DriverListActivity"/>
+            android:parentActivityName=".ui.admin.DriverListActivity" />
         <activity
             android:name=".ui.driver.DriverDashboardActivity"
             android:label="@string/title_activity_driver_dashboard"
             android:theme="@style/NoActionBarStyle" />
-        <activity android:name=".ui.student.StudentDashboardActivity" />
+        <activity
+            android:name=".ui.student.StudentDashboardActivity"
+            android:theme="@style/NoActionBarStyle" />
         <activity
             android:name=".ui.admin.StudentListActivity"
             android:label="@string/all_student"

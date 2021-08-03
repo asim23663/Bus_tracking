@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.uni.onclicklgubus.MyApp
 import com.uni.onclicklgubus.model.Driver
+import com.uni.onclicklgubus.model.Student
 import com.uni.onclicklgubus.model.User
 
 
@@ -56,6 +57,13 @@ private constructor() {
         editor.apply();
     }
 
+    fun saveStudentData(key: String?, user: Student) {
+        val gson = Gson()
+        val json = gson.toJson(user)
+        editor.putString(key, json);
+        editor.apply();
+    }
+
     fun getLoginData(key: String?): User {
         val gson = Gson()
         val json = sharedPreferences.getString(key, null)
@@ -67,6 +75,13 @@ private constructor() {
         val gson = Gson()
         val json = sharedPreferences.getString(key, null)
         return gson.fromJson(json, Driver::class.java)
+
+    }
+
+    fun getStudentData(key: String?): Student {
+        val gson = Gson()
+        val json = sharedPreferences.getString(key, null)
+        return gson.fromJson(json, Student::class.java)
 
     }
 

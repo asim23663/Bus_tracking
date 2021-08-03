@@ -1,13 +1,12 @@
-package com.uni.onclicklgubus.ui.driver
+package com.uni.onclicklgubus.ui.student
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.location.Address
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -17,33 +16,40 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.uni.onclicklgubus.R
 import com.uni.onclicklgubus.base.BaseActivity
-import com.uni.onclicklgubus.databinding.ActivityDriverDashboardBinding
+import com.uni.onclicklgubus.databinding.ActivityBusTrackingBinding
 import com.uni.onclicklgubus.firebase.DataBase
 import com.uni.onclicklgubus.model.Bus
-import com.uni.onclicklgubus.sharedPref.SharedPref
+import com.uni.onclicklgubus.model.Student
 import com.uni.onclicklgubus.sharedPref.SharedPrefHelper
-import com.uni.onclicklgubus.ui.WelcomeActivity
-import android.location.Geocoder
-import android.util.Log
-import java.io.IOException
-import java.lang.StringBuilder
-import java.util.*
+import com.uni.onclicklgubus.ui.driver.DriverDashboardActivity
+import com.uni.onclicklgubus.utils.Constants
+import java.text.DecimalFormat
 
+class BusTrackingActivity : BaseActivity<ActivityBusTrackingBinding>(), OnMapReadyCallback {
+    private lateinit var mMap: GoogleMap
 
-class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), OnMapReadyCallback {
+    //    private lateinit var auth: FirebaseAuth
+    private var mMarker: Marker? = null
+    var distance = 0.0
+    var currentLatLng: LatLng? = null
 
     private var fusedLocationProvider: FusedLocationProviderClient? = null
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
-        interval = 30
-        fastestInterval = 10
+        interval = 40
+        fastestInterval = 20
         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        maxWaitTime = 600
+        maxWaitTime = 6000
     }
 
     private var locationCallback: LocationCallback = object : LocationCallback() {
@@ -53,63 +59,73 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
                 //The last location in the list is the newest
                 val location = locationList.last()
 
-                SharedPrefHelper.instance!!.getDriverData.apply {
-                    DataBase.BUS_TRACKING_DB_REF.child(busNumber!!).apply {
 
 
-                        child("lat").setValue(location.latitude)
-                        child("lng").setValue(location.longitude)
-                    }
-
-                }
-
-                val coordinate = LatLng(
+                currentLatLng = LatLng(
                     location.latitude,
                     location.longitude
                 ) //Store these lat lng values somewhere. These should be constant.
 
-                val cameraUpdateFactory = CameraUpdateFactory.newLatLngZoom(
-                    coordinate, 15f
-                )
-                mMap.animateCamera(cameraUpdateFactory)
+//                val cameraUpdateFactory = CameraUpdateFactory.newLatLngZoom(
+//                    coordinate, 12f
+//                )
+//                mMap.animateCamera(cameraUpdateFactory)
 
-//                showToast("Got Location:  ${getAddress(location.latitude, location.longitude)}")
+//                showToast("Got Location:  ")
 
             }
         }
     }
-    private lateinit var mMap: GoogleMap
 
     // The Fused Location Provider provides access to location APIs.
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(applicationContext)
     }
 
-    private lateinit var auth: FirebaseAuth
-
-    override fun getViewBinding(): ActivityDriverDashboardBinding =
-        ActivityDriverDashboardBinding.inflate(layoutInflater)
+    override fun getViewBinding(): ActivityBusTrackingBinding =
+        ActivityBusTrackingBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mViewBinding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        init()
         initLocationMap()
+        init()
         setListener()
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    override fun init() {
+
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        val busData = intent.getSerializableExtra(Constants.BUNDLE_DATA) as Bus
+
+        mViewBinding.apply {
+            busData.apply {
+                tvDriverName.text = driverName
+                tvBusNmbr.text = busNumber
+
+                getBusLocation(busNumber!!)
+
+            }
+
+        }
+
+    }
+
+    override fun setListener() {
+    }
+
+    private fun initLocationMap() {
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
+
+        checkLocationPermission()
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isMapToolbarEnabled = true
@@ -132,105 +148,77 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
         }
         mMap.isMyLocationEnabled = true
 
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(31.5204, 74.3587)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Lahore"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
 
-    override fun init() {
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mMap.uiSettings.apply {
 
-        SharedPrefHelper.instance!!.getDriverData.apply {
-            DataBase.BUS_TRACKING_DB_REF.child(busNumber!!)
-                .setValue(Bus(uid, busNumber, name, 0.0, 0.0, busRoute))
-
-            mViewBinding.apply {
-
-                tvDriverName.text = name
-                tvBusNmbr.text = busNumber
-            }
-
-        }
-    }
-
-    private fun initLocationMap() {
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
-
-        checkLocationPermission()
-    }
-
-    override fun setListener() {
-
-        mViewBinding.apply {
-            ivLogout.setOnClickListener {
-                doLogout()
-            }
+            isZoomControlsEnabled = true
+            isZoomGesturesEnabled = false
         }
 
+
     }
 
-    private fun getAddress(latitude: Double, longitude: Double): String? {
-        val result = StringBuilder()
-        try {
-            val geocoder = Geocoder(this, Locale.getDefault())
-            val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addresses.size > 0) {
-                val address: Address = addresses[0]
-                result.append(address.getLocality()).append("\n")
-                result.append(address.getCountryName())
-            }
-        } catch (e: IOException) {
-            Log.d(Companion.TAG, "tag: ${e.message}")
+    private fun getBusLocation(busNumber: String) {
 
-        }
-        return result.toString()
+        DataBase.BUS_TRACKING_DB_REF
+            .child(busNumber)
+            .addValueEventListener(object :
+                ValueEventListener {
+                @SuppressLint("SetTextI18n")
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var latLng: LatLng?
+
+                    try {
+                        val bus = dataSnapshot.getValue(Bus::class.java)!!
+
+                        bus.apply {
+                            latLng = LatLng(lat!!, lng!!)
+
+
+                            try {
+                                distance = calculationByDistance(currentLatLng!!, latLng!!);
+                                val d = "Distance: " + distance.toInt() + " Km"
+                                mViewBinding.tvTime.text = "${distance.toInt()} KM"
+                            } catch (e: NullPointerException) {
+                                Log.d(TAG, "NullPointerException")
+                            }
+
+
+                            //For removing multiplicity of marker
+                            if (mMarker != null) {
+                                mMarker!!.remove();
+                                //mMap.setMaxZoomPreference(20);
+                                moveCamera(latLng!!, busNumber);
+                            } else {
+                                //mMap.setMaxZoomPreference(20);
+                                moveCamera(latLng!!, busNumber);
+                            }
+                        }
+                    } catch (e: NullPointerException) {
+                        showSnackBar("Something went wrong")
+                    }
+
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    showSnackBar(databaseError.message)
+                }
+            })
     }
 
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun doLogout() {
-        MaterialAlertDialogBuilder(mViewBinding.root.context)
-            .setTitle(resources.getString(R.string.app_name))
-            .setMessage(R.string.str_logout_msg)
-            .setIcon(resources.getDrawable(R.mipmap.ic_app_icon, null))
-            .setPositiveButton("Yes") { dialog: DialogInterface?, whichButton: Int ->
-                SharedPref.instance!!.clearSharedPref()
-                FirebaseAuth.getInstance().signOut();
-                navigateAndClearBackStack(WelcomeActivity::class.java)
-            }
-            .setNegativeButton(
-                "Cancel"
-            ) { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() }.show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-
-            fusedLocationProvider?.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-
-            fusedLocationProvider?.removeLocationUpdates(locationCallback)
-        }
+    private fun moveCamera(latLng: LatLng, title: String) {
+        //Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.0f))
+        mMarker = mMap.addMarker(
+            MarkerOptions().position(latLng)
+                .title(title)
+                .icon(
+                    BitmapDescriptorFactory.fromResource(
+                        R.drawable.ic_marker
+                    )
+                )
+        )
     }
 
     private fun checkLocationPermission() {
@@ -321,8 +309,63 @@ class DriverDashboardActivity : BaseActivity<ActivityDriverDashboardBinding>(), 
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+
+            fusedLocationProvider?.removeLocationUpdates(locationCallback)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+
+            fusedLocationProvider?.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
+    }
+
+    fun calculationByDistance(StartP: LatLng, EndP: LatLng): Double {
+        val Radius = 6371 // radius of earth in Km
+        val lat1 = StartP.latitude
+        val lat2 = EndP.latitude
+        val lon1 = StartP.longitude
+        val lon2 = EndP.longitude
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = (Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + (Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2)))
+        val c = 2 * Math.asin(Math.sqrt(a))
+        val valueResult = Radius * c
+        val km = valueResult / 1
+        val newFormat = DecimalFormat("####")
+        val kmInDec: Int = Integer.valueOf(newFormat.format(km))
+        val meter = valueResult % 1000
+        val meterInDec: Int = Integer.valueOf(newFormat.format(meter))
+
+
+        Log.i(
+            "Radius Value", "" + valueResult + "   KM  " + kmInDec
+                    + " Meter   " + meterInDec
+        )
+        return Radius * c
+    }
+
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-        private const val TAG = "DriverDashboardActivity"
+        private const val TAG = "BusTrackingActivity"
     }
 }

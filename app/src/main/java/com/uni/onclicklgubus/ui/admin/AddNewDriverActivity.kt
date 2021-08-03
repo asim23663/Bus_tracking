@@ -11,14 +11,16 @@ import com.uni.onclicklgubus.R
 import com.uni.onclicklgubus.base.BaseActivity
 import com.uni.onclicklgubus.databinding.ActivityAddNewDriverBinding
 import com.uni.onclicklgubus.firebase.DataBase.DRIVER_DB_REF
+import com.uni.onclicklgubus.model.Bus
 import com.uni.onclicklgubus.model.Driver
+import com.uni.onclicklgubus.utils.Constants
 import com.uni.onclicklgubus.utils.Utils
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
 
     private lateinit var auth: FirebaseAuth
-
+    private var driverData: Driver? = null
     override fun getViewBinding(): ActivityAddNewDriverBinding =
         ActivityAddNewDriverBinding.inflate(layoutInflater)
 
@@ -34,63 +36,97 @@ class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
     override fun init() {
         auth = FirebaseAuth.getInstance()
 
+
+        mViewBinding.apply {
+            if (intent.extras != null) {
+                supportActionBar!!.title = "Edit Driver";
+                driverData = intent.getSerializableExtra(Constants.BUNDLE_DATA) as Driver
+                driverData!!.apply {
+                    etName.setText(name)
+                    etDob.setText(dob)
+                    etExperience.setText(experience)
+                    etNumber.setText(phoneNumber)
+                    etDrivingLicenceNumber.setText(drivingLicenceNumber)
+                    etDrivingLicenceExpireDate.setText(drivingLicenceExpireDate)
+                    etBusNumb.setText(busNumber)
+                    etBusRoute.setText(busRoute)
+                    etEmail.setText(email)
+                    etPassword.setText(password)
+
+                    btnSave.text = "Update Driver"
+
+                }
+
+
+            }
+        }
+
+
     }
 
     override fun setListener() {
 
         mViewBinding.apply {
 
-                btnSave.setOnClickListener {
+            btnSave.setOnClickListener {
 
-                    when {
-                        isEmpty(etName) -> {
-                            etName.error = "Name is required!"
-                            etName.requestFocus()
-                        }
-                        isEmpty(etDob) -> {
-                            etDob.error = "D-O-B is required!"
-                            etDob.requestFocus()
-                        }
-                        isEmpty(etExperience) -> {
-                            etExperience.error = "Experience is required!"
-                            etExperience.requestFocus()
-                        }
-                        isEmpty(etNumber) -> {
-                            etNumber.error = "Contact number is required!"
-                            etNumber.requestFocus()
-                        }
-                        isEmpty(etDrivingLicenceNumber) -> {
-                            etDrivingLicenceNumber.error = "Driving Licence number is required!"
-                            etDrivingLicenceNumber.requestFocus()
-                        }
-                        isEmpty(etDrivingLicenceNumber) -> {
-                            etDrivingLicenceNumber.error = "Driving Licence expire date is required!"
-                            etDrivingLicenceNumber.requestFocus()
-                        }
-                        isEmpty(etBusNumb) -> {
-                            etBusNumb.error = "Bus Number is required!"
-                            etBusNumb.requestFocus()
-                        }
-                        isEmpty(etBusRoute) -> {
-                            etBusRoute.error = "Bus Route is required!"
-                            etBusRoute.requestFocus()
-                        }
-                        isEmpty(etEmail) -> {
-                            etEmail.error = "Email is required!"
-                            etEmail.requestFocus()
-                        }
-                        isEmailValid(getText(etEmail)) -> {
-                            etEmail.error = "Email is not valid!"
-                            etEmail.requestFocus()
+                when {
+                    isEmpty(etName) -> {
+                        etName.error = "Name is required!"
+                        etName.requestFocus()
+                    }
+                    isEmpty(etDob) -> {
+                        etDob.error = "D-O-B is required!"
+                        etDob.requestFocus()
+                    }
+                    isEmpty(etExperience) -> {
+                        etExperience.error = "Experience is required!"
+                        etExperience.requestFocus()
+                    }
+                    isEmpty(etNumber) -> {
+                        etNumber.error = "Contact number is required!"
+                        etNumber.requestFocus()
+                    }
+                    isEmpty(etDrivingLicenceNumber) -> {
+                        etDrivingLicenceNumber.error = "Driving Licence number is required!"
+                        etDrivingLicenceNumber.requestFocus()
+                    }
+                    isEmpty(etDrivingLicenceNumber) -> {
+                        etDrivingLicenceNumber.error = "Driving Licence expire date is required!"
+                        etDrivingLicenceNumber.requestFocus()
+                    }
+                    isEmpty(etBusNumb) -> {
+                        etBusNumb.error = "Bus Number is required!"
+                        etBusNumb.requestFocus()
+                    }
+                    isEmpty(etBusRoute) -> {
+                        etBusRoute.error = "Bus Route is required!"
+                        etBusRoute.requestFocus()
+                    }
+                    isEmpty(etEmail) -> {
+                        etEmail.error = "Email is required!"
+                        etEmail.requestFocus()
+                    }
+                    isEmailValid(getText(etEmail)) -> {
+                        etEmail.error = "Email is not valid!"
+                        etEmail.requestFocus()
+                    }
+
+                    isEmpty(etPassword) -> {
+                        etPassword.error = "Password is required!"
+                        etPassword.requestFocus()
+                    }
+                    else -> {
+                        if (driverData != null) {
+                            uploadDataToServer(driverData!!.uid!!, true)
+                        } else {
+                            saveDriverData()
                         }
 
-                        isEmpty(etPassword) -> {
-                            etPassword.error = "Password is required!"
-                            etPassword.requestFocus()
-                        }
-                        else -> saveDriverData()
+
                     }
                 }
+            }
             etDob.setOnClickListener { Utils.selectDate(this@AddNewDriverActivity, etDob) }
             etDrivingLicenceExpireDate.setOnClickListener {
                 Utils.selectDate(
@@ -111,7 +147,7 @@ class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
             ).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val uid = auth.currentUser.uid
-                    uploadDataToServer(uid)
+                    uploadDataToServer(uid, false)
                 } else {
                     setVisibility(btnSave, pb)
                     try {
@@ -140,12 +176,13 @@ class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
 
     }
 
-    private fun uploadDataToServer(uid: String) {
+    private fun uploadDataToServer(uid: String, isEdit: Boolean) {
 
         mViewBinding.apply {
             Utils.apply {
 
                 setVisibility(btnSave, pb)
+
                 val driver = Driver(
                     uid,
                     getText(etName),
@@ -159,15 +196,23 @@ class AddNewDriverActivity : BaseActivity<ActivityAddNewDriverBinding>() {
                     getText(etEmail),
                     getText(etPassword),
                 )
+                if (isEdit) {
 
-                /*     FirebaseDatabase.getInstance()
-                         .getReference(DataBase.DRIVER_DB_REF)
-                         .child(uid)
-                         .setValue(user)*/
+                    DRIVER_DB_REF.child(uid).setValue(driver)
+                    showSnackBar("Driver Updated Successfully")
+                    onBackPressed()
+                } else {
 
-                DRIVER_DB_REF.child(uid).setValue(driver)
-                showSnackBar("Driver Added Successfully")
-                onBackPressed()
+
+                    /*     FirebaseDatabase.getInstance()
+                             .getReference(DataBase.DRIVER_DB_REF)
+                             .child(uid)
+                             .setValue(user)*/
+
+                    DRIVER_DB_REF.child(uid).setValue(driver)
+                    showSnackBar("Driver Added Successfully")
+                    onBackPressed()
+                }
 
 
             }

@@ -58,6 +58,10 @@
 
     <string name="str_logout_msg">Do you really want to Logout?</string>
     <string name="driver">Driver\'s Dashboard</string>
+    <string name="student">Student\'s Dashboard</string>
     <string name="title_activity_admin_tracking_buss">Tracking Buss</string>
+    <string name="title_bus_list">Bus List</string>
+    <string name="title_tracking_bus">Tracking Bus</string>
+    <string name="title_submit_fee_via">Submit Fee via</string>
 
 </resources>

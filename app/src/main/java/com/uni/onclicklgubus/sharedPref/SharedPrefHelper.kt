@@ -1,6 +1,7 @@
 package com.uni.onclicklgubus.sharedPref
 
 import com.uni.onclicklgubus.model.Driver
+import com.uni.onclicklgubus.model.Student
 import com.uni.onclicklgubus.model.User
 
 
@@ -57,6 +58,14 @@ class SharedPrefHelper {
 
     val getDriverData: Driver
         get() = SharedPref.instance!!.getDriverData(LOGIN_DATA)
+
+
+    fun saveStudentData(student: Student) {
+        SharedPref.instance!!.saveStudentData(LOGIN_DATA, student);
+    }
+
+    val getStudentData: Student
+        get() = SharedPref.instance!!.getStudentData(LOGIN_DATA)
 
     companion object {
         //add key here

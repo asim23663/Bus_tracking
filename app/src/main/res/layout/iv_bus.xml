@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="driver"
-            type="com.uni.onclicklgubus.model.Driver" />
+            name="bus"
+            type="com.uni.onclicklgubus.model.Bus" />
     </data>
 
     <FrameLayout
@@ -15,7 +15,7 @@
 
         <com.google.android.material.card.MaterialCardView
             style="@style/CardViewStyle"
-            android:id="@+id/cv_driver"
+            android:id="@+id/cv_bus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small">
@@ -26,10 +26,11 @@
                 android:padding="@dimen/padding_small">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_60sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_account" />
+                    android:layout_marginHorizontal="@dimen/margin_normal"
+                    android:src="@mipmap/ic_app_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -38,31 +39,6 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="start|center"
-                            android:text="Name:"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            style="@style/SingleLineTextStyle"
-                            android:layout_width="0dp"
-                            android:text="@{driver.name}"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:gravity="start"
-                            android:textColor="@color/black"
-                            tools:text="xyz"
-                            android:textSize="@dimen/text_size_bigger" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -87,7 +63,7 @@
                             android:textColor="@color/black"
 
                             tools:text="xyz"
-                            android:text="@{driver.busNumber}"
+                            android:text="@{bus.busNumber}"
                             android:textSize="@dimen/text_size_bigger" />
 
                     </LinearLayout>
@@ -114,8 +90,7 @@
                             android:gravity="start"
                             tools:text="xyz"
                             android:textColor="@color/black"
-
-                            android:text="@{driver.busRoute}"
+                            android:text="@{bus.busRoute}"
                             android:textSize="@dimen/text_size_bigger" />
 
                     </LinearLayout>

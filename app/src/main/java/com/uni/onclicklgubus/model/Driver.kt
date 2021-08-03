@@ -1,5 +1,7 @@
 package com.uni.onclicklgubus.model
 
+import java.io.Serializable
+
 data class Driver(
     val uid: String? = "null",
     val name: String? = "null",
@@ -12,4 +14,4 @@ data class Driver(
     val busRoute: String? = "null",
     val email: String? = "null",
     val password: String? = "null",
-)
+): Serializable

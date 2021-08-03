@@ -16,6 +16,7 @@
 
         <com.google.android.material.card.MaterialCardView
             style="@style/CardViewStyle"
+            android:id="@+id/cv_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small">
@@ -57,10 +58,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:gravity="start"
-                            tools:text="xyz"
-                            android:textColor="@color/black"
                             android:text="@{studnet.name}"
-                            android:textSize="@dimen/text_size_bigger" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_bigger"
+                            tools:text="xyz" />
 
                     </LinearLayout>
 
@@ -84,11 +85,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:gravity="start"
-                            tools:text="xyz"
+                            android:text="@{studnet.rollNumber}"
                             android:textColor="@color/black"
 
-                            android:text="@{studnet.rollNumber}"
-                            android:textSize="@dimen/text_size_bigger" />
+                            android:textSize="@dimen/text_size_bigger"
+                            tools:text="xyz" />
 
                     </LinearLayout>
 
@@ -112,11 +113,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:gravity="start"
-                            tools:text="xyz"
+                            android:text="@{studnet.department}"
                             android:textColor="@color/black"
 
-                            android:text="@{studnet.department}"
-                            android:textSize="@dimen/text_size_bigger" />
+                            android:textSize="@dimen/text_size_bigger"
+                            tools:text="xyz" />
 
                     </LinearLayout>
 

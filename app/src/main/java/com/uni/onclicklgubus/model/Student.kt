@@ -1,5 +1,7 @@
 package com.uni.onclicklgubus.model
 
+import java.io.Serializable
+
 data class Student(
     val uid: String? = "null",
     val name: String? = "null",
@@ -14,4 +16,4 @@ data class Student(
     val rollNumber: String? = "null",
     val email: String? = "null",
     val password: String? = "null",
-)
+): Serializable

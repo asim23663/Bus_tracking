@@ -26,5 +26,9 @@ class DriversListAdapter : BaseRecyclerViewAdapter<Driver, IvDriverBinding>() {
             listener?.invoke(it, items[position], position)
         }
 
+        holder.binding.cvDriver.setOnClickListener {
+            listener?.invoke(it, items[position], position)
+        }
+
     }
 }

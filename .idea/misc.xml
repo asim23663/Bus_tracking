@@ -9,13 +9,17 @@
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/drawable/ic_place_holder.xml" value="0.19166666666666668" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_add_new_driver.xml" value="0.2" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_add_new_student.xml" value="0.25" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_admin_tracking_buss.xml" value="0.1" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_bus_tracking.xml" value="0.1953125" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_buss_on_route.xml" value="0.1" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_driver_dashboard.xml" value="0.18" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_driver_list.xml" value="0.21" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_login.xml" value="0.1574074074074074" />
-        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_student_dashboard.xml" value="0.12" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_student_dashboard.xml" value="0.25" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_student_list.xml" value="0.209375" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/activity_welcome.xml" value="0.209375" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/custom_toolbar.xml" value="0.10182370820668693" />
+        <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/iv_bus.xml" value="0.25" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/iv_driver.xml" value="0.3" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/iv_student.xml" value="0.209375" />
         <entry key="..\:/FYPs/On_Click_LGU_Bus/OnClickLGUBus/app/src/main/res/layout/layout_admin.xml" value="0.1574074074074074" />

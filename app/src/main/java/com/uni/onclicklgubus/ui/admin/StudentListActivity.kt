@@ -1,11 +1,14 @@
 package com.uni.onclicklgubus.ui.admin
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.uni.onclicklgubus.R
 import com.uni.onclicklgubus.adapter.DriversListAdapter
 import com.uni.onclicklgubus.adapter.StudentsListAdapter
 import com.uni.onclicklgubus.base.BaseActivity
@@ -13,6 +16,7 @@ import com.uni.onclicklgubus.databinding.ActivityStudentListBinding
 import com.uni.onclicklgubus.firebase.DataBase
 import com.uni.onclicklgubus.model.Driver
 import com.uni.onclicklgubus.model.Student
+import com.uni.onclicklgubus.utils.Constants
 
 class StudentListActivity : BaseActivity<ActivityStudentListBinding>() {
 
@@ -42,7 +46,45 @@ class StudentListActivity : BaseActivity<ActivityStudentListBinding>() {
     }
 
     override fun setListener() {
+
+        adapter.listener = { view, item, position ->
+            when (view.id) {
+                R.id.cv_driver -> {
+                    showDialog(item, position)
+                }
+            }
+        }
     }
+
+    private fun showDialog(driver: Student, position: Int) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Select")
+            .setItems(Constants.OPTIONS) { dialog, which ->
+                when {
+                    Constants.OPTIONS[which] == Constants.OPTIONS[0] -> {
+                        val intent = Intent(this, AddNewStudentActivity::class.java)
+                        intent.putExtra(Constants.BUNDLE_DATA, driver)
+                        startActivity(intent)
+
+                    }
+                    /*  OPTIONS[which] == OPTIONS[1] -> {
+
+                          val bundle = bundleOf()
+                          bundle.putParcelable(Constants.BUNDLE_DATA, post)
+                          findNavController().navigate(R.id.action_my_ads_to_addPostFragment, bundle)
+
+                      }*/
+                    Constants.OPTIONS[which] == Constants.OPTIONS[1] -> {
+                        showToast("Deleted Successfully")
+                        DataBase.DRIVER_DB_REF.child(driver.uid.toString()).removeValue()
+                        adapter.removeItems(position)
+                    }
+                }
+            }
+            .setCancelable(true)
+            .show()
+    }
+
 
     private fun getStudentFromServer() {
         mViewBinding.apply {

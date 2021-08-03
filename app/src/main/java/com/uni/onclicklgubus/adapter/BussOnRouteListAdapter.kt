@@ -2,21 +2,21 @@ package com.uni.onclicklgubus.adapter
 
 import com.uni.freebie.base.BaseRecyclerViewAdapter
 import com.uni.onclicklgubus.R
+import com.uni.onclicklgubus.databinding.IvBusBinding
 import com.uni.onclicklgubus.databinding.IvDriverBinding
-import com.uni.onclicklgubus.databinding.IvStudentBinding
+import com.uni.onclicklgubus.model.Bus
 import com.uni.onclicklgubus.model.Driver
-import com.uni.onclicklgubus.model.Student
 
-class StudentsListAdapter : BaseRecyclerViewAdapter<Student, IvStudentBinding>() {
+class BussOnRouteListAdapter : BaseRecyclerViewAdapter<Bus, IvBusBinding>() {
 
-    override fun getLayout() = R.layout.iv_student
+    override fun getLayout() = R.layout.iv_bus
 
     override fun onBindViewHolder(
-        holder: Companion.BaseViewHolder<IvStudentBinding>,
+        holder: Companion.BaseViewHolder<IvBusBinding>,
         position: Int
     ) {
 
-        holder.binding.studnet = items[position]
+        holder.binding.bus = items[position]
 
         items[position].apply {
 
@@ -27,7 +27,8 @@ class StudentsListAdapter : BaseRecyclerViewAdapter<Student, IvStudentBinding>()
         holder.binding.root.setOnClickListener {
             listener?.invoke(it, items[position], position)
         }
-        holder.binding.cvStudent.setOnClickListener {
+
+        holder.binding.cvBus.setOnClickListener {
             listener?.invoke(it, items[position], position)
         }
 
